@@ -1,5 +1,6 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+
 let recycleBinImage, bottleImage, paperImage, plasticImage, trashImage;
 let recycleBin, currentItem, score;
 
@@ -119,14 +120,15 @@ function resetGame() {
     location.reload();
 }
 
-window.addEventListener('keydown', (e) => {
-    let movementSpeed = 10 * 1.3;
-    if (e.code === 'ArrowLeft' && recycleBin.x > 0) {
-        recycleBin.x -= movementSpeed;
-    } else if (e.code === 'ArrowRight' && recycleBin.x < canvas.width - recycleBin.width) {
-        recycleBin.x += movementSpeed;
-    }
-});
+function onCanvasMouseMove(event) {
+    const canvasRect = canvas.getBoundingClientRect();
+    const mouseX = event.clientX - canvasRect.left;
+    const binHalfWidth = recycleBin.width / 2;
+
+    recycleBin.x = Math.min(Math.max(mouseX - binHalfWidth, 0), canvas.width - recycleBin.width);
+}
+
+canvas.addEventListener('mousemove', onCanvasMouseMove);
 
 function startGame() {
     initializeGame();
