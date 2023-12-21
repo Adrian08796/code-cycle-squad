@@ -1,34 +1,58 @@
 const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
 
-let recycleBinImage, bottleImage, paperImage, plasticImage, trashImage;
-let recycleBin, currentItem, score;
+const scoresPerBinColor = {
+    green: {
+        paper: -5,
+        glass: 10,
+        organic: -5,
+        nonRecyclableWaste: -5,
+        plastic: -5
+    },
+    blue: {
+        paper: 10,
+        glass: -5,
+        organic: -5,
+        nonRecyclableWaste: -5,
+        plastic: -5
+    },
+    red: {
+        paper: -5,
+        glass: -5,
+        organic: 10,
+        nonRecyclableWaste: -5,
+        plastic: -5
+    },
+    yellow: {
+        paper: -5,
+        glass: -5,
+        organic: -5,
+        nonRecyclableWaste: -5,
+        plastic: 10
+    },
+    black: {
+        paper: -5,
+        glass: -5,
+        organic: -5,
+        nonRecyclableWaste: 10,
+        plastic: -5
+    },
+}
 
-function initializeGame() {
-    recycleBinImage = new Image();
-    recycleBinImage.src = "./assets/images/blue-bin.png";
+console.log(scoresPerBinColor.blue.plastic)
+// console.log(scoresPerBinColor[currentBinColor][thingICollidedWith.type])
 
-    bottleImage = new Image();
-    bottleImage.src = "./assets/images/bottle.png";
+let recycleBinImage, redBinImage, blackBinImage, yellowBinImage, greenBinImage, blueBinImage;
+let bottleImage, paperImage, plasticImage, trashImage;
+let recycleBin, currentItem;
+let score=0;
 
-    paperImage = new Image();
-    paperImage.src = "./assets/images/paper.png";
-
-    plasticImage = new Image();
-    plasticImage.src = "./assets/images/plastic.png";
-
-    trashImage = new Image();
-    trashImage.src = "./assets/images/trash.png";
-
-    recycleBin = {
-        x: canvas.width / 2 - 75,
-        y: canvas.height - 150,
-        width: 150,
-        height: 150,
-    };
-
-    currentItem = null;
-    score = 0;
+function selectRandomBin() {
+    const bins = [redBinImage, blackBinImage, yellowBinImage, greenBinImage, blueBinImage];
+    const colors = ["red", "black", "yellow", "green", "blue"];
+    const randomIndex = Math.floor(Math.random() * bins.length);
+    recycleBin.color=colors[randomIndex];
+    recycleBinImage = bins[randomIndex];
 }
 
 function drawRecycleBin() {
@@ -45,13 +69,18 @@ function drawItem(item) {
             case 'plastic':
                 image = plasticImage;
                 break;
-            case 'trash':
+            case 'nonRecyclableWaste':
                 image = trashImage;
                 break;
-            case 'bottle':
+            case 'organic':
+                image = organicImage;
+                break;
+            case 'glass':
+            
             default:
                 image = bottleImage;
                 break;
+                
         }
         ctx.drawImage(image, item.x, item.y, item.width, item.height);
     }
@@ -63,11 +92,11 @@ function drawScore() {
     ctx.fillText('Score: ' + score, 10, 30);
 }
 
-function updateGame() {
+function updateGame() {//this is the game tick//
     let speedIncrease = 1;
 
     if (!currentItem) {
-        const items = ['bottle', 'paper', 'plastic', 'trash'];
+        const items = ['glass', 'paper', 'plastic', 'nonRecyclableWaste', 'organic'];
         let itemType = items[Math.floor(Math.random() * items.length)];
         currentItem = {
             x: Math.random() * (canvas.width - 50),
@@ -85,20 +114,14 @@ function updateGame() {
             currentItem.y < recycleBin.y + recycleBin.height &&
             currentItem.y + currentItem.height > recycleBin.y
         ) {
-            switch (currentItem.type) {
-                case 'paper':
-                    score += 10;
-                    break;
-                case 'plastic':
-                    score += 5;
-                    break;
-                case 'trash':
-                    score -= 10;
-                    break;
-                case 'bottle':
-                    score -= 5;
-                    break;
-            }
+            score += scoresPerBinColor[recycleBin.color][currentItem.type];
+            console.log(JSON.stringify({
+                currentBinColor: recycleBin.color, 
+                scoresForThisColor: scoresPerBinColor[recycleBin.color], 
+                currentItemType: currentItem.type,
+                calculatedScore: `${score} (${scoresPerBinColor[recycleBin.color][currentItem.type]})`
+            }))
+
             currentItem = null;
         }
 
@@ -116,6 +139,47 @@ function updateGame() {
     requestAnimationFrame(updateGame);
 }
 
+function initializeGame() {
+    // Initialize bin images
+    redBinImage = new Image();
+    redBinImage.src = "./assets/images/red-bin.png";
+    blackBinImage = new Image();
+    blackBinImage.src = "./assets/images/black-bin.png";
+    yellowBinImage = new Image();
+    yellowBinImage.src = "./assets/images/yellow-bin.png";
+    greenBinImage = new Image();
+    greenBinImage.src = "./assets/images/green-bin.png";
+    blueBinImage = new Image();
+    blueBinImage.src = "./assets/images/blue-bin.png";
+
+    // Initialize other images
+    bottleImage = new Image();
+    bottleImage.src = "./assets/images/bottle.png";
+    paperImage = new Image();
+    paperImage.src = "./assets/images/paper.png";
+    plasticImage = new Image();
+    plasticImage.src = "./assets/images/plastic.png";
+    trashImage = new Image();
+    trashImage.src = "./assets/images/diaper.png";
+    organicImage = new Image();
+    organicImage.src = "./assets/images/banana.png";
+
+    // Initialize game state
+    recycleBin = {
+        color:"blue",
+        x: canvas.width / 2 - 75,
+        y: canvas.height - 150,
+        width: 150,
+        height: 150,
+    };
+
+    currentItem = null;
+    score = 0;
+
+    selectRandomBin();
+    updateGame();
+}
+
 function resetGame() {
     location.reload();
 }
@@ -131,25 +195,8 @@ function onCanvasMouseMove(event) {
 canvas.addEventListener('mousemove', onCanvasMouseMove);
 
 function startGame() {
-    initializeGame();
-    document.getElementById('welcomeSection').style.display = 'none';
     document.getElementById('gameSection').style.display = 'block';
 
-    let assetsLoaded = 0;
-    let totalAssets = 5;
-
-    function assetLoaded() {
-        assetsLoaded++;
-        if (assetsLoaded === totalAssets) {
-            updateGame();
-        }
-    }
-
-    recycleBinImage.onload = assetLoaded;
-    bottleImage.onload = assetLoaded;
-    paperImage.onload = assetLoaded;
-    plasticImage.onload = assetLoaded;
-    trashImage.onload = assetLoaded;
 }
 
 function endGame() {
@@ -164,3 +211,26 @@ function restartGame() {
     score = 0;
     resetGame();
 }
+
+// Initialize the game
+initializeGame();
+
+const binSwitchHandler = (event) => {
+    if (event.key === "a") {
+      recycleBin.color = "red";
+      recycleBinImage = redBinImage;
+    } else if (event.key === "s") {
+      recycleBin.color = "green";
+      recycleBinImage = greenBinImage;
+    } else if (event.key === "d") {
+      recycleBin.color = "blue";
+      recycleBinImage  = blueBinImage;
+    } else if (event.key === "f") {
+      recycleBin.color = "yellow";
+      recycleBinImage = yellowBinImage; 
+    } else if (event.code === "Space") {
+      recycleBin.color = "black";
+      recycleBinImage = blackBinImage;
+    }
+  };
+  document.addEventListener("keydown", binSwitchHandler);
