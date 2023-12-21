@@ -1,5 +1,15 @@
-const canvas = document.getElementById('gameCanvas');
+let paperImages
+let bottleImages
+let plasticImages
+let trashImages
+let organicImages
+
+        const canvas = document.getElementById('gameCanvas');
 const ctx = canvas.getContext('2d');
+
+function pickRandom(arr) {
+    return arr[Math.floor(Math.random() * arr.length)]
+  }
 
 const scoresPerBinColor = {
     green: {
@@ -43,7 +53,24 @@ console.log(scoresPerBinColor.blue.plastic)
 // console.log(scoresPerBinColor[currentBinColor][thingICollidedWith.type])
 
 let recycleBinImage, redBinImage, blackBinImage, yellowBinImage, greenBinImage, blueBinImage;
-let bottleImage, paperImage, plasticImage, trashImage;
+let paperImage;
+let paperImage1;
+let paperImage2;
+let paperImage3;
+let paperImage4;
+let bottleImage;
+let bottleImage1;
+let bottleImage2;
+let bottleImage3;
+let plasticImage;
+let plasticImage1;
+let plasticImage2;
+let plasticImage3;
+let trashImage;
+let trashImage1;
+let organicImage;
+let organicImage1;
+let organicImage2;
 let recycleBin, currentItem;
 let score=0;
 
@@ -64,21 +91,21 @@ function drawItem(item) {
         let image;
         switch (item.type) {
             case 'paper':
-                image = paperImage;
+                image = pickRandom(paperImages);
                 break;
             case 'plastic':
-                image = plasticImage;
+                image = pickRandom(plasticImages);
                 break;
             case 'nonRecyclableWaste':
-                image = trashImage;
+                image = pickRandom(trashImages);
                 break;
             case 'organic':
-                image = organicImage;
+                image = pickRandom(organicImages);
                 break;
             case 'glass':
             
             default:
-                image = bottleImage;
+                image = pickRandom(bottleImages);
                 break;
                 
         }
@@ -106,7 +133,7 @@ function updateGame() {//this is the game tick//
             type: itemType
         };
     } else {
-        currentItem.y += 5 * speedIncrease;
+        currentItem.y += 5 * speedIncrease; //moves objects down//
 
         if (
             currentItem.x < recycleBin.x + recycleBin.width &&
@@ -155,14 +182,79 @@ function initializeGame() {
     // Initialize other images
     bottleImage = new Image();
     bottleImage.src = "./assets/images/bottle.png";
+    bottleImage1 = new Image();
+    bottleImage1.src = "./assets/images/wine.png";
+    bottleImage2 = new Image();
+    bottleImage2.src = "./assets/images/pickle.png";
+    bottleImage3 = new Image();
+    bottleImage3.src = "./assets/images/broken-glass.png";
+
     paperImage = new Image();
     paperImage.src = "./assets/images/paper.png";
+    paperImage1 = new Image();
+    paperImage1.src = "./assets/images/paper.png";
+    paperImage2 = new Image();
+    paperImage2.src = "./assets/images/toilet-paper.png";
+    paperImage3 = new Image();
+    paperImage3.src = "./assets/images/envelope.png";
+    paperImage4 = new Image();
+    paperImage4.src = "./assets/images/package.png";
+
     plasticImage = new Image();
     plasticImage.src = "./assets/images/plastic.png";
+    plasticImage1 = new Image();
+    plasticImage1.src = "./assets/images/plastic-cup.png";
+    plasticImage2 = new Image();
+    plasticImage2.src = "./assets/images/milk-carton.png";
+    plasticImage3 = new Image();
+    plasticImage3.src = "./assets/images/plastic-bag.png";
+
     trashImage = new Image();
     trashImage.src = "./assets/images/diaper.png";
+    trashImage1 = new Image();
+    trashImage1.src = "./assets/images/poop.png";
+
     organicImage = new Image();
     organicImage.src = "./assets/images/banana.png";
+    organicImage1 = new Image();
+    organicImage1.src = "./assets/images/apple.png";
+    organicImage2 = new Image();
+    organicImage2.src = "./assets/images/egg.png";
+
+   
+      
+       paperImages = [
+          paperImage,
+          paperImage1,
+          paperImage2,
+          paperImage3,
+          paperImage4,
+      ]
+      
+       bottleImages = [
+          bottleImage,
+          bottleImage1,
+          bottleImage2,
+          bottleImage3,
+      ]
+      
+       plasticImages = [
+          plasticImage,
+          plasticImage1,
+          plasticImage2,
+          plasticImage3,
+      ]
+      
+       trashImages = [
+          trashImage,
+          trashImage1,
+      ]
+      
+       organicImages = [
+          organicImage,
+          organicImage1,
+          organicImage2,
+      ]
 
     // Initialize game state
     recycleBin = {
