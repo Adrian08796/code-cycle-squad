@@ -127,8 +127,12 @@ function onCanvasMouseMove(event) {
 canvas.addEventListener('mousemove', onCanvasMouseMove);
 
 function startGame() {
+    
+    document.getElementById('welcomeSection').style.display = 'none';
     document.getElementById('gameSection').style.display = 'block';
-}
+    }
+    
+
 
 function endGame() {
     document.getElementById('gameSection').style.display = 'none';

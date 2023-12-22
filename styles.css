@@ -30,3 +30,16 @@ button {
   border-radius: 4px;
   cursor: pointer;
 }
+
+button {
+  border: 2px solid black;
+}
+
+#welcomeImage {
+  max-width: 80%;
+  height: auto;
+  outline: 5px solid black;
+  border-radius: 25px;
+  box-sizing: border-box;
+  margin: auto;
+}
