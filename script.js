@@ -68,7 +68,7 @@ function updateGame() {
             image: pickRandom(getImageArray(itemType))
         };
     } else {
-        currentItem.y += 5 * speedIncrease;
+        currentItem.y += 2 * speedIncrease;
 
         if (currentItem.x < recycleBin.x + recycleBin.width &&
             currentItem.x + currentItem.width > recycleBin.x &&
