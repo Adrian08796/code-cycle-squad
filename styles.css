@@ -36,10 +36,14 @@ button {
 }
 
 #welcomeImage {
-  max-width: 80%;
+  max-width: 60%;
   height: auto;
   outline: 5px solid black;
   border-radius: 25px;
   box-sizing: border-box;
   margin: auto;
+}
+
+@media screen and (min-width: 590px) and (max-width: 992px) {
+  
 }

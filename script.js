@@ -162,7 +162,7 @@ const binSwitchHandler = (event) => {
     } else if (event.key === "f") {
         recycleBin.color = "yellow";
         recycleBinImage = yellowBinImage;
-    } else if (event.code === "Space") {
+    } else if (event.code === "Space"  || event.key === "g") {
         recycleBin.color = "black";
         recycleBinImage = blackBinImage;
     }
