@@ -7,18 +7,18 @@
     <title>Recycle Bin Game</title>
 </head>
 <body>
-    <div style="text-align: center;" id="welcomeSection">
+    <div id="welcomeSection">
         <img src="./assets/images/Intro.png" alt="Intro.png" id="welcomeImage" /> 
-        <h1 style="text-align: center;">Welcome to Code-Cycle-Squad's Recycle Bin Game</h1>
+        <h1>Welcome to Code-Cycle-Squad's Recycle Bin Game</h1>
         <button onclick="startGame()">Start Game</button>
     </div>
 
-    <div id="gameSection" style="display:none;">
-        <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <div id="gameSection">
+        <canvas id="gameCanvas"></canvas>
         <button id="endGameButton" onclick="endGame()">End Game</button>
     </div>
 
-    <div  id="endSection" style="display:none; text-align: center;">
+    <div id="endSection">
         <img src="./assets/images/instructions.png" alt="Welcome" id="welcomeImage" /> 
         <h1>Game Over</h1>
         <p>Your final score: <span id="finalScore"></span></p>

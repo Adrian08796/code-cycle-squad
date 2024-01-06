@@ -14,6 +14,26 @@ let bottleImages, paperImages, plasticImages, trashImages, organicImages;
 let recycleBin, currentItem;
 let score = 0;
 
+// Adjustments for responsiveness
+function resizeCanvas() {
+    canvas.width = window.innerWidth * 0.9; // 90% of viewport width
+    canvas.height = window.innerHeight * 0.8; // 80% of viewport height
+    // Adjust game elements based on new canvas size
+    recycleBin.x = canvas.width / 2 - recycleBin.width / 2;
+    recycleBin.y = canvas.height - recycleBin.height - 20;
+}
+
+window.addEventListener('resize', resizeCanvas);
+window.addEventListener('load', resizeCanvas);  // Initial resize on load
+
+// Touch event handlers for mobile devices
+canvas.addEventListener('touchmove', function(event) {
+    event.preventDefault();
+    const touch = event.touches[0];
+    onCanvasMouseMove(touch);
+}, false);
+
+
 function pickRandom(arr) {
     return arr[Math.floor(Math.random() * arr.length)];
 }
@@ -54,7 +74,7 @@ function drawScore() {
 }
 
 function updateGame() {
-    let speedIncrease = 1;
+    let speedIncrease = 2;
 
     if (!currentItem) {
         const items = ['glass', 'paper', 'plastic', 'nonRecyclableWaste', 'organic'];
@@ -68,7 +88,7 @@ function updateGame() {
             image: pickRandom(getImageArray(itemType))
         };
     } else {
-        currentItem.y += 2 * speedIncrease;
+        currentItem.y += 1 * speedIncrease;
 
         if (currentItem.x < recycleBin.x + recycleBin.width &&
             currentItem.x + currentItem.width > recycleBin.x &&
