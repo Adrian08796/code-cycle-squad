@@ -167,6 +167,42 @@ function restartGame() {
     resetGame();
 }
 
+function redButtonAction() {
+    recycleBin.color = "red";
+    recycleBinImage = redBinImage;
+}
+
+document.getElementById('btn-red').addEventListener('click', redButtonAction);
+
+function yellowButtonAction() {
+    recycleBin.color = "yellow";
+    recycleBinImage = yellowBinImage;
+}
+
+document.getElementById('btn-yellow').addEventListener('click', yellowButtonAction);
+
+function blueButtonAction() {
+    recycleBin.color = "blue";
+    recycleBinImage = blueBinImage;
+}
+
+document.getElementById('btn-blue').addEventListener('click', blueButtonAction);
+
+function greenButtonAction() {
+    recycleBin.color = "green";
+    recycleBinImage = greenBinImage;
+}
+
+document.getElementById('btn-green').addEventListener('click', greenButtonAction);
+
+function blackButtonAction() {
+    recycleBin.color = "black";
+    recycleBinImage = blackBinImage;
+}
+
+document.getElementById('btn-black').addEventListener('click', blackButtonAction);
+
+
 initializeGame();
 
 const binSwitchHandler = (event) => {

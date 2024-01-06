@@ -48,16 +48,13 @@ button {
 
 #endGameButton{
   text-align: center;
-
 }
 
 #welcomeImage, #endImage {
-  max-width: 60%;
-  height: auto;
+  height: fit-content;
+  width: 100vh;
   outline: 5px solid black;
   border-radius: 25px;
-  box-sizing: border-box;
-  margin: auto;
 }
 
 @media screen and (min-width: 600px) and (max-width: 1024px) {
@@ -65,17 +62,36 @@ button {
     font-size: 14px;
     padding: 8px;
   }
-}
+
+  #endGameButton{
+    display: none;
+  }
+  }
+  
+
 
 @media screen and (max-width: 599px) {
   #welcomeImage, #endImage {
     max-width: 80%;
   }
-
   #gameCanvas{
     position: relative;
-    max-width: 100vh;
-    max-width: fit-content;
-    min-width: 100%;
+    min-height: 40vh;
+    width: fit-content;
+  }
+  #btn-red{
+    background-color: red;
+  }
+  #btn-yellow{
+    background-color: rgb(255,189,13);
+  }#btn-blue{
+    background-color: blue;
+  }#btn-green{
+    background-color: green;
+  }#btn-black{
+    background-color: black;
+  }
+  #endGameButton{
+    display: none;
   }
 }
